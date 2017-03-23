@@ -1,6 +1,6 @@
 import config.JdbcConfig;
-import service.CarService;
-import service.InitService;
+import dao.CarDao;
+import util.Init;
 import model.Car;
 import config.CarConfig;
 import org.springframework.context.ApplicationContext;
@@ -12,11 +12,11 @@ public class Main {
         ApplicationContext applicationContext =
                 new AnnotationConfigApplicationContext(CarConfig.class, JdbcConfig.class);
         Car car = applicationContext.getBean(Car.class);
-        CarService event = applicationContext.getBean(CarService.class);
-        InitService initService = applicationContext.getBean(InitService.class);
-        initService.initDataBase();
-        event.addCar(car);
-        System.out.println(event.getCarByID(1).toString());
+        CarDao carDao = applicationContext.getBean(CarDao.class);
+        Init init = applicationContext.getBean(Init.class);
+        init.initDataBase();
+        carDao.addCar(car);
+        System.out.println(carDao.getCarByID(2).toString());
 
     }
 }

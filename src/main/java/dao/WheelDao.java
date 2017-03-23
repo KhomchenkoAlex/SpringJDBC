@@ -1,4 +1,4 @@
-package service;
+package dao;
 
 
 import model.autoparts.SummerTyres;
@@ -15,16 +15,16 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class WheelService {
+public class WheelDao {
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertWheel;
-    private TyresService tyresService;
+    private TyresDao tyresDao;
 
     @Autowired
-    public WheelService(DataSource dataSource) {
+    public WheelDao(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.tyresService = new TyresService(dataSource);
+        this.tyresDao = new TyresDao(dataSource);
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.insertWheel = new SimpleJdbcInsert(dataSource)
                 .withTableName("wheel")
@@ -34,7 +34,7 @@ public class WheelService {
     public int addWheelsAndGetID(Wheel wheel) {
         SummerTyres tyres = (SummerTyres) wheel.getTyres();
         Map<String, Object> parameters = new HashMap<String, Object>(2);
-        parameters.put("id_tyres", tyresService.addTyresAndGetID(tyres));
+        parameters.put("id_tyres", tyresDao.addTyresAndGetID(tyres));
         Number id_wheel = insertWheel.executeAndReturnKey(parameters);
         return id_wheel.intValue();
     }
@@ -42,6 +42,6 @@ public class WheelService {
     public Wheel getWheelsByID(int id_wheel) {
         String SQL = "select id_tyres from Wheel where id_wheel = ?";
         int id_tyres = jdbcTemplate.queryForObject(SQL, new Object[]{id_wheel}, Integer.class);
-        return new Wheel(tyresService.getTyresByID(id_tyres));
+        return new Wheel(tyresDao.getTyresByID(id_tyres));
     }
 }

@@ -1,4 +1,4 @@
-package service;
+package dao;
 
 import model.autoparts.Engine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +8,17 @@ import org.springframework.stereotype.Repository;
 import util.EngineMapper;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public class EngineService {
+public class EngineDao {
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertEngine;
 
     @Autowired
-    public EngineService(DataSource dataSource) {
+    public EngineDao(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.insertEngine = new SimpleJdbcInsert(dataSource)

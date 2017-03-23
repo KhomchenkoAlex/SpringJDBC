@@ -1,7 +1,7 @@
 package config;
 
-import service.CarService;
-import service.InitService;
+import dao.CarDao;
+import util.Init;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -49,10 +49,10 @@ public class JdbcConfig {
     }
 
     @Bean
-    public CarService CarService(){
-        return new CarService();
+    public CarDao CarDao(){
+        return new CarDao();
     }
 
     @Bean
-    public InitService InitService(){ return new InitService(); }
+    public Init Init(){ return new Init(); }
 }

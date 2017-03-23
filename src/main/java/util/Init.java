@@ -1,10 +1,11 @@
-package service;
+package util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import javax.sql.DataSource;
 
-public class InitService {
+public class Init {
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
@@ -14,11 +15,8 @@ public class InitService {
     }
 
     public void initDataBase() {
-        this.jdbcTemplate.execute("DROP TABLE Car IF EXISTS;" +
-                " DROP TABLE Engine IF EXISTS;" +
-                " DROP TABLE Wheel IF EXISTS;" +
-                " DROP TABLE Tyres IF EXISTS;");
-        this.jdbcTemplate.execute("create table Car (" +
+
+        this.jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS Car (" +
                 "id_car INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                 " id_eng INT," +
                 " id_wheel INT);");
@@ -33,6 +31,12 @@ public class InitService {
         this.jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS Wheel (" +
                 "id_wheel INT NOT NULL PRIMARY KEY AUTO_INCREMENT," +
                 "id_tyres INT);");
+    }
+
+    public int countRowInTableWheel() {
+        int countRow = this.jdbcTemplate.queryForObject(
+                "select count(*) from Wheel", Integer.class);
+        return countRow;
     }
 
 }

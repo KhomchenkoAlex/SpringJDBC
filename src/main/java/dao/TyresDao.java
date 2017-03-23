@@ -1,4 +1,4 @@
-package service;
+package dao;
 
 import model.autoparts.SummerTyres;
 import model.autoparts.Tyres;
@@ -13,13 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class TyresService {
+public class TyresDao {
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
     private SimpleJdbcInsert insertTyres;
 
     @Autowired
-    public TyresService(DataSource dataSource) {
+    public TyresDao(DataSource dataSource) {
         this.dataSource = dataSource;
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.insertTyres = new SimpleJdbcInsert(dataSource)
